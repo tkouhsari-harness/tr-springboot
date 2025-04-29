@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{cookiecutter.project_slug}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{cookiecutter.project_slug}}
+  template:
+    metadata:
+      labels:
+        app: {{cookiecutter.project_slug}}
+    spec:
+      containers:
+      - name: {{cookiecutter.project_slug}}
+        image: gcr.io/YOUR_PROJECT_ID/{{cookiecutter.project_slug}}:latest
+        ports:
+        - containerPort: 8080

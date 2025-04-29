@@ -1,0 +1,6 @@
+{
+  "project_name": "My Spring Boot App",
+  "project_slug": "my_springboot_app",
+  "author_name": "Your Name",
+  "java_package": "com.example"
+}
