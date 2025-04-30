@@ -3,6 +3,16 @@ name: CI
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: 'Name of the project'
+        required: true
+        default: '{{cookiecutter.project_name}}'  # This will be replaced with the actual project name
+      project_slug:
+        description: 'Slug version of the project name'
+        required: true
+        default: '{{cookiecutter.project_slug}}'  # This will be replaced with the slug version
 
 jobs:
   build:
@@ -25,8 +35,10 @@ jobs:
 
       - name: Build & Push Docker image
         run: |
-          docker build -t docker.io/${{ cookiecutter.dockerhub_username }}/{{cookiecutter.project_slug}}:latest .
-          docker push docker.io/${{ cookiecutter.dockerhub_username }}/{{cookiecutter.project_slug}}:latest
+          # Use project_slug for Docker tag
+          IMAGE_NAME="${{ cookiecutter.project_slug }}"
+          docker build -t docker.io/${{ cookiecutter.dockerhub_username }}/${IMAGE_NAME}:latest .
+          docker push docker.io/${{ cookiecutter.dockerhub_username }}/${IMAGE_NAME}:latest
 
       - name: Deploy to Kubernetes
         run: |
