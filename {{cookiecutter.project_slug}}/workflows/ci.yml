@@ -6,17 +6,23 @@ on:
   workflow_dispatch:
     inputs:
       project_name:
-        description: 'Name of the project'
+        description: 'Name of the project (e.g., My Cool App)'
         required: true
         default: '{{cookiecutter.project_name}}'  # This will be replaced with the actual project name
       project_slug:
-        description: 'Slug version of the project name'
+        description: 'Slug version of the project (e.g., my_cool_app)'
         required: true
         default: '{{cookiecutter.project_slug}}'  # This will be replaced with the slug version
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      PROJECT_NAME: "{{ cookiecutter.project_name }}"
+      PROJECT_SLUG: "{{ cookiecutter.project_slug }}"
+      DOCKERHUB_USERNAME: "{{ cookiecutter.dockerhub_username }}"
+      DOCKERHUB_TOKEN: "{{ cookiecutter.dockerhub_token }}"
 
     steps:
       - uses: actions/checkout@v3
@@ -31,14 +37,12 @@ jobs:
         run: mvn -B clean install
 
       - name: Log in to Docker Hub
-        run: echo "${{ cookiecutter.dockerhub_token }}" | docker login -u "${{ cookiecutter.dockerhub_username }}" --password-stdin
+        run: echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
       - name: Build & Push Docker image
         run: |
-          # Use project_slug for Docker tag
-          IMAGE_NAME="${{ cookiecutter.project_slug }}"
-          docker build -t docker.io/${{ cookiecutter.dockerhub_username }}/${IMAGE_NAME}:latest .
-          docker push docker.io/${{ cookiecutter.dockerhub_username }}/${IMAGE_NAME}:latest
+          docker build -t docker.io/$DOCKERHUB_USERNAME/$PROJECT_SLUG:latest .
+          docker push docker.io/$DOCKERHUB_USERNAME/$PROJECT_SLUG:latest
 
       - name: Deploy to Kubernetes
         run: |
