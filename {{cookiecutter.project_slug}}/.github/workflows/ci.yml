@@ -8,11 +8,11 @@ on:
       project_name:
         description: 'Name of the project (e.g., My Cool App)'
         required: true
-        default: '{{cookiecutter.project_name}}'  # This will be replaced with the actual project name
+        default: '{{cookiecutter.project_name}}'  
       project_slug:
         description: 'Slug version of the project (e.g., my_cool_app)'
         required: true
-        default: '{{cookiecutter.project_slug}}'  # This will be replaced with the slug version
+        default: '{{cookiecutter.project_slug}}'  
 
 jobs:
   build:
