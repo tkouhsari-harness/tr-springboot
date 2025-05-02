@@ -1,7 +1,8 @@
 {
   "project_name": "My Spring Boot App",
   "project_slug": "my_springboot_app",
-  "author_name": "Your Name",
+  "project_owner": "Your Name",
+  "project_description": "My new Spring Boot app",
   "java_package": "com.example",
   "dockerhub_username": "DOCKERHUB_USERNAME",
   "dockerhub_token": "DOCKERHUB_TOKEN"
