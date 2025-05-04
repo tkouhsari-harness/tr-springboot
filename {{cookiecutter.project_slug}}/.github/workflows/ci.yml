@@ -26,6 +26,7 @@ jobs:
       GKE_CLUSTER: "{{ cookiecutter.gke_cluster }}"
       GKE_LOCATION: "{{ cookiecutter.gke_location }}"
       GKE_PROJECT: "{{ cookiecutter.gke_project }}"
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
@@ -39,6 +40,11 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean install
 
+      - name: Run Snyk Maven scan
+        uses: snyk/actions/maven@master
+        with:
+          args: test --all-projects
+
       - name: Log in to Docker Hub
         run: echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
@@ -46,17 +52,25 @@ jobs:
         run: |
           docker build -t docker.io/$DOCKERHUB_USERNAME/$PROJECT_SLUG:latest .
           docker push docker.io/$DOCKERHUB_USERNAME/$PROJECT_SLUG:latest
+
+      - name: Run Snyk Docker scan
+        uses: snyk/actions/docker@master
+        with:
+          image: docker.io/${{ env.DOCKERHUB_USERNAME }}/${{ env.PROJECT_SLUG }}:latest
+          args: test
+
       - name: Set up GCloud auth
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
-        
+
       - name: Set up GKE credentials
         uses: google-github-actions/get-gke-credentials@v1
         with:
           cluster_name: $GKE_CLUSTER
           location: $GKE_LOCATION
           project_id: $GKE_PROJECT
+
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f k8s/deployment.yaml
