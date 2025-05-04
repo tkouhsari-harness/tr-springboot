@@ -22,11 +22,12 @@ jobs:
       PROJECT_NAME: "{{ cookiecutter.project_name }}"
       PROJECT_SLUG: "{{ cookiecutter.project_slug }}"
       DOCKERHUB_USERNAME: "{{ cookiecutter.dockerhub_username }}"
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      DOCKERHUB_TOKEN: "${{{{ secrets.DOCKERHUB_TOKEN }}}}"
       GKE_CLUSTER: "{{ cookiecutter.gke_cluster }}"
       GKE_LOCATION: "{{ cookiecutter.gke_location }}"
       GKE_PROJECT: "{{ cookiecutter.gke_project }}"
-      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      SNYK_TOKEN: "${{{{ secrets.SNYK_TOKEN }}}}"
+      SNYK_ORG: "{{ cookiecutter.snyk_org }}"
 
     steps:
       - uses: actions/checkout@v3
@@ -43,7 +44,7 @@ jobs:
       - name: Run Snyk Maven scan
         uses: snyk/actions/maven@master
         with:
-          args: test --all-projects
+          args: test --all-projects --org=${{{{ secrets.SNYK_ORG }}}}
 
       - name: Log in to Docker Hub
         run: echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
@@ -57,12 +58,12 @@ jobs:
         uses: snyk/actions/docker@master
         with:
           image: docker.io/${{ env.DOCKERHUB_USERNAME }}/${{ env.PROJECT_SLUG }}:latest
-          args: test
+          args: test --org=${{{{ secrets.SNYK_ORG }}}}
 
       - name: Set up GCloud auth
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+          credentials_json: "${{{{ secrets.GCP_CREDENTIALS }}}}"
 
       - name: Set up GKE credentials
         uses: google-github-actions/get-gke-credentials@v1

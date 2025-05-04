@@ -10,5 +10,6 @@
   "dockerhub_token": "DOCKERHUB_TOKEN",
   "gke_cluster": "gke-cluster-name",
   "gke_location": "us-central1",
-  "gke_project": "your-gke-project"
+  "gke_project": "your-gke-project",
+  "snyk_org": "Your Snyk org"
 }
