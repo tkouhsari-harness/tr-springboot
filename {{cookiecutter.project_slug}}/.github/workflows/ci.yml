@@ -23,6 +23,9 @@ jobs:
       PROJECT_SLUG: "{{ cookiecutter.project_slug }}"
       DOCKERHUB_USERNAME: "{{ cookiecutter.dockerhub_username }}"
       DOCKERHUB_TOKEN: "{{ cookiecutter.dockerhub_token }}"
+      GKE_CLUSTER: "{{ cookiecutter.gke_cluster }}"
+      GKE_LOCATION: "{{ cookiecutter.gke_location }}"
+      GKE_PROJECT: "{{ cookiecutter.gke_project }}"
 
     steps:
       - uses: actions/checkout@v3
@@ -43,7 +46,17 @@ jobs:
         run: |
           docker build -t docker.io/$DOCKERHUB_USERNAME/$PROJECT_SLUG:latest .
           docker push docker.io/$DOCKERHUB_USERNAME/$PROJECT_SLUG:latest
-
+      - name: Set up GCloud auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+        
+      - name: Set up GKE credentials
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: $GKE_CLUSTER
+          location: $GKE_LOCATION
+          project_id: $GKE_PROJECT
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f k8s/deployment.yaml

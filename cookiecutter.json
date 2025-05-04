@@ -7,5 +7,8 @@
   "main_class": "HelloWorld",
   "java_package_dir": "{{ cookiecutter.java_package.replace('.', '/') }}",
   "dockerhub_username": "DOCKERHUB_USERNAME",
-  "dockerhub_token": "DOCKERHUB_TOKEN"
+  "dockerhub_token": "DOCKERHUB_TOKEN",
+  "gke_cluster": "gke-cluster-name",
+  "gke_location": "us-central1",
+  "gke_project": "your-gke-project"
 }
