@@ -8,13 +8,13 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>{{cookiecutter.project_name}}</name>
-  <description>{{cookiecutter.project_description}}</description>
+  <description>Spring Boot Hello World App</description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.2.5</version>
-    <relativePath/> <!-- lookup parent from repository -->
+    <relativePath/>
   </parent>
 
   <properties>
@@ -22,19 +22,14 @@
   </properties>
 
   <dependencies>
-    <!-- Spring Boot Web dependency -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-
-    <!-- For graceful shutdown and actuator support -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
-
-    <!-- For testing -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -44,20 +39,14 @@
 
   <build>
     <plugins>
-      <!-- Spring Boot Maven Plugin -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>3.2.5</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>repackage</goal>
-            </goals>
-          </execution>
-        </executions>
+        <configuration>
+          <mainClass>{{cookiecutter.java_package}}.{{cookiecutter.main_class}}</mainClass>
+        </configuration>
       </plugin>
     </plugins>
   </build>
-
 </project>
