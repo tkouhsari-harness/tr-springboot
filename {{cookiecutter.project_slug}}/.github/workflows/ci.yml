@@ -22,7 +22,7 @@ jobs:
       PROJECT_NAME: "{{ cookiecutter.project_name }}"
       PROJECT_SLUG: "{{ cookiecutter.project_slug }}"
       DOCKERHUB_USERNAME: "{{ cookiecutter.dockerhub_username }}"
-      DOCKERHUB_TOKEN: "{{ cookiecutter.dockerhub_token }}"
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       GKE_CLUSTER: "{{ cookiecutter.gke_cluster }}"
       GKE_LOCATION: "{{ cookiecutter.gke_location }}"
       GKE_PROJECT: "{{ cookiecutter.gke_project }}"
