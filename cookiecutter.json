@@ -5,6 +5,7 @@
   "project_description": "My new Spring Boot app",
   "java_package": "com.example",
   "main_class": "HelloWorld",
+  "java_package_dir": "{{ cookiecutter.java_package.replace('.', '/') }}",
   "dockerhub_username": "DOCKERHUB_USERNAME",
   "dockerhub_token": "DOCKERHUB_TOKEN"
 }
