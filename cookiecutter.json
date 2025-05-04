@@ -4,6 +4,7 @@
   "project_owner": "Your Name",
   "project_description": "My new Spring Boot app",
   "java_package": "com.example",
+  "main_class": "HelloWorld",
   "dockerhub_username": "DOCKERHUB_USERNAME",
   "dockerhub_token": "DOCKERHUB_TOKEN"
 }
