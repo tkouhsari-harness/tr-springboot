@@ -44,7 +44,7 @@ jobs:
       - name: Run Snyk Maven scan
         uses: snyk/actions/maven@master
         with:
-          args: test --all-projects --org=${{{{ secrets.SNYK_ORG }}}}
+          args: test --all-projects --org=TODO
 
       - name: Log in to Docker Hub
         run: echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
@@ -58,12 +58,12 @@ jobs:
         uses: snyk/actions/docker@master
         with:
           image: docker.io/${{ env.DOCKERHUB_USERNAME }}/${{ env.PROJECT_SLUG }}:latest
-          args: test --org=${{{{ secrets.SNYK_ORG }}}}
+          args: test --org=TODO
 
       - name: Set up GCloud auth
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: "${{{{ secrets.GCP_CREDENTIALS }}}}"
+          credentials_json: "TODO"
 
       - name: Set up GKE credentials
         uses: google-github-actions/get-gke-credentials@v1
