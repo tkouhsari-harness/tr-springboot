@@ -57,7 +57,7 @@ jobs:
       - name: Run Snyk Docker scan
         uses: snyk/actions/docker@master
         with:
-          image: docker.io/${{ env.DOCKERHUB_USERNAME }}/${{ env.PROJECT_SLUG }}:latest
+          image: docker.io/TODO:latest
           args: test --org=TODO
 
       - name: Set up GCloud auth
