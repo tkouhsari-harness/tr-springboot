@@ -26,9 +26,10 @@ jobs:
       GKE_CLUSTER: "{{ cookiecutter.gke_cluster }}"
       GKE_LOCATION: "{{ cookiecutter.gke_location }}"
       GKE_PROJECT: "{{ cookiecutter.gke_project }}"
-      SNYK_TOKEN: "test"
+      {% raw -%}      
+      SNYK_TOKEN: "${{ secrets.SNYK_TOKEN }}"
+      {% endraw -%}
       SNYK_ORG: "{{ cookiecutter.snyk_org }}"
-
     steps:
       - uses: actions/checkout@v3
 
